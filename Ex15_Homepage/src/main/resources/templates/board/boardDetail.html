@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+<link href="css/index.css" rel="stylesheet"/>
+<style>
+	.detail-table {
+		width: 800px;
+		
+	}
+	.detail-height {
+		height: 400px;
+	}
+
+	.item {
+		width: 80px;
+		text-align: center;
+	}
+
+</style>
+</head>
+<body>
+	<div th:replace="~{/fragments/header.html :: fragment-menu}"></div>
+	<h1 align="center">게시판 상세조회</h1>
+	<div align="center">
+		<table border="1" class="detail-table detail-height" >
+			<tr style="height: 10%;">
+				<td class="item">작성자</td>
+				<td th:text="${board.writer}"></td>
+			</tr>
+			<tr style="height: 10%;">
+				<td class="item">등록날짜</td>
+				<td th:text="*{#temporals.format(board.createDate, 'yyyy-MM-dd')}"></td>
+			</tr>
+			<tr style="height: 10%;">
+				<td class="item">조회수</td>
+				<td th:text="${board.count}"></td>
+			</tr>
+			<tr>
+				<td class="item">내용</td>
+				<td th:text="${board.content}"></td>
+			</tr>
+
+		</table>
+		<!-- 댓글을 작성하는 구간-->
+		<form action="insertReply" method="post" id="replyForm">
+			<table border="1" class="detail-table">
+				<tr>
+					<td>댓글쓰기</td>
+					<td><textarea name="content" id="replyContent" cols="50" rows="5" ></textarea></td>
+					<td th:if="${loginUser != null}"><button>댓글 작성하기</button></td>
+				</tr>
+			</table>
+			<div th:if="${loginUser != null}">
+				<input type="hidden" name="writer"  th:value="${loginUser.id}">
+			</div>
+		</form>
+		
+		<!-- 댓글 목록들-->
+		<table>
+			<tr th:each="reply, state:${replyList}">
+				<td th:text="${reply.writer}"></td>
+				<td th:text="${reply.content}"></td>
+				<td th:text="${reply.createDate}"></td>
+			</tr>
+		</table>
+		
+		<a th:href="@{boardList(nowPage=${nowPage})}">목록으로 돌아가기</a>&emsp;
+		<a th:href="@{deleteBoard(nowPage=${nowPage}, bno=${board.bno})}">수정하기</a>&emsp;
+		<a th:href="@{deleteBoard(nowPage=${nowPage}, bno=${board.bno})}">삭제하기</a>
+	</div>
+	<script>
+		$(()=>{
+			$("#replyForm").on("submit", function(event){
+				event.preventDefault();
+				$.ajax({
+					url: "insertReply",
+					type : "POST",
+					data : {
+						refBno: "[[${board.bno}]]",
+						writer: "[[${loginUser.id}]]",
+						content: $("#replyContent").val()
+						
+					},
+					success: function(result){
+						$("#replyContent").val("")
+					},
+					error: function(){
+						console.log("replyForm ajax 통신 실패");
+					}
+				})
+			})
+		})
+	</script>
+</body>
+</html>
