@@ -60,7 +60,7 @@
 		</form>
 		
 		<!-- 댓글 목록들-->
-		<table border="1" class="detail-table" id="replyTable">
+		<table border="1" class="detail-table">
 			<tr th:each="reply, state:${replyList}">
 				<td th:text="${reply.writer}"></td>
 				<td style="width: 50%;" th:text="${reply.content}"></td>
@@ -90,14 +90,6 @@
 					success: function(result){
 						$("#replyContent").val("")
 						
-						let value = $("#replyTable").html();
-						let newReply = `<tr>
-											<td th:text="${result.writer}"></td>
-											<td style="width: 50%;" th:text="${result.content}"></td>
-											<td style="width: 30%;" th:text="${result.createDate}"></td>
-										</tr>`;
-						value += newReply;
-						$("#replyTable").html(value);
 	
 					},
 					error: function(){
@@ -106,7 +98,6 @@
 				})
 			})
 		})
-	
 	</script>
 </body>
 </html>
