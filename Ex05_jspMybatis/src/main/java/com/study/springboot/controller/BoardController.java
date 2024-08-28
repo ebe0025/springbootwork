@@ -25,7 +25,7 @@ public class BoardController {
 	
 	@RequestMapping("/")
 	public String root() throws Exception{
-		return "redirect:list";
+		return "list";
 	}
 	
 	/*

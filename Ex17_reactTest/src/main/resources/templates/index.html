@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/index.css" rel="stylesheet"/>
+</head>
+<body>
+	<div th:replace="~{/fragments/header.html :: fragment-menu}"></div>
+	<div class="imgwrap"><img src="img/spring.png"></div>
+	
+	<input type="button" id="naverPayBtn" value="네이버페이 결제 버튼">
+	<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
+	<script>
+	    var oPay = Naver.Pay.create({
+	          "mode" : "production", // development or production
+	          "clientId": "u86j4ripEt8LRfPGzQ8", // clientId
+	          "chainId": "TDZSUHBoVGRFS2l" // chainId
+	    });
+	
+
+</script>
+</body>
+</html>

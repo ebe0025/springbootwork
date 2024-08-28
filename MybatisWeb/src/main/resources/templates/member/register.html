@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+
+<style>
+	.container {
+		width: 1000px;
+	}
+	.container table {
+		
+		margin: 0 auto;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><input name="id" id="id"></td>
+				<td id="hideId">체크중</td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="pass" id="pass"></td>
+				<td id="hidePass"></td>
+			</tr>
+			<tr>
+				<td>비밀번호 확인</td>
+				<td><input type="password" name="rePass"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button type="button" class="btn btn-secondary">취소</button>
+					<button type="submit" class="btn btn-primary" id="mSubmit">만들기</button>
+				</td>
+				<td></td>
+			</tr>
+			
+		</table>
+	</div>
+	
+	<script>
+		$(() => {
+			//처음엔 숨기기
+			$("#hideId").hide();
+			
+			$("#id").on('input', function(){
+				let userId = $("#id").val();
+				let hideId = $("#hideId");
+				
+				$("mSubmit").prop("disable", false);
+				
+				if(userId.length >= 5)
+				{
+					$.ajax({
+						url : "/checkId",
+						data : {id : userId},
+						method : "POST",
+						success : function(result) {
+							let canCreate = false;
+							
+							$("mSubmit")
+							
+							
+							if(result){
+								hideId.text("중복되는 아이디입니다.");
+								
+							}else {
+								hideId.text("사용할 수 있는 아이디입니다.");	
+								$("mSubmit").prop("disable", true);				
+							}
+							
+						},
+						error : console.log
+					})
+				}else {
+					$("#hideId").hide();
+				}
+				
+			})
+		})
+	</script>
+</body>
+</html>
