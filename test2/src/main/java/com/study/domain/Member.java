@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity
+@Entity(name = "Member1")
 public class Member {
 	@Id
 	private String id;
@@ -14,5 +14,5 @@ public class Member {
 	private String pass;
 	@NonNull
 	private String name;
-	private String Email;
+	private String email;
 }

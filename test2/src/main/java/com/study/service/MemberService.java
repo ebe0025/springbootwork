@@ -12,8 +12,8 @@ public class MemberService {
 	@Autowired
 	MemberRepository memberRepository;
 
-	public void save(@RequestBody Member m) {
-		memberRepository.save(m);
+	public Member save(@RequestBody Member m) {
+		return memberRepository.save(m);
 		
 	}
 }
